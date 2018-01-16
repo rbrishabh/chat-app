@@ -16,6 +16,16 @@ io.on('connection', (socket)=>{
     socket.on('disconnect', ()=>{
         console.log('Connection from client closed');
     });
+
+    socket.emit('newMessage', {
+        from : 'Lala',
+        text: 'OK bye',
+        createdAt: 123
+    });
+    socket.on('createMessage', function (message) {
+        console.log('recieved new message', message);
+    });
+
 });
 
 server.listen(PORT, ()=>{
