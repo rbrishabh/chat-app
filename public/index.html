@@ -6,8 +6,15 @@
 <body>
 
 <h6>Creating chat app using socket.io</h6>
+<form id="message-form">
+    <ol id="messages"></ol>
+
+    <input type="text" name="message" placeholder="Type your Message here"/>
+    <button>Send</button>
+</form>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/libs/jquery-3.2.1.min.js"></script>
 <script src="/js/index.js"></script>
 </body>
 </html>
