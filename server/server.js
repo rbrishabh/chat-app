@@ -2,7 +2,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 
 const publicPath = path.join(__dirname, '../public');
 const socketIO = require('socket.io')
@@ -35,7 +35,14 @@ io.on('connection', (socket)=>{
         // });
     });
 
+socket.on('geoLocationMessage', (coords)=>{
+    io.emit('newLocationMessage',generateLocationMessage('admin', coords.latitude, coords.longitude));
 });
+
+
+});
+
+
 
 server.listen(PORT, ()=>{
     console.log(`Server up on ${PORT}`);
