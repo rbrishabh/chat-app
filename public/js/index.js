@@ -6,17 +6,18 @@ socket.on('disconnect', function () {
     console.log('Connection to server closed');
 });
 socket.on('newMessage', function (message) {
-    console.log('new message recieved', message);
+    var time = moment(message.createdAt).format("h:mm a");
     var li = jQuery('<li></li>');
-    li.text(`${message.from} : ${message.text}`);
+    li.text(`${message.from} at ${time} : ${message.text}`);
     jQuery('#messages').append(li);
 
 });
 
 socket.on('newLocationMessage', function(message) {
   var li = jQuery('<li></li>');
-  var a = jQuery('<a target="_blank">Current Location</a>');
-  li.text(`${message.from} : `);
+    var time = moment(message.createdAt).format("h:mm a");
+    var a = jQuery('<a target="_blank">Current Location</a>');
+
   a.attr('href',message.url);
   li.append(a);
     jQuery('#messages').append(li);
