@@ -16,9 +16,9 @@ socket.on('newMessage', function (message) {
 socket.on('newLocationMessage', function(message) {
   var li = jQuery('<li></li>');
     var time = moment(message.createdAt).format("h:mm a");
+    li.text(`${message.from} at ${time} : `);
     var a = jQuery('<a target="_blank">Current Location</a>');
-
-  a.attr('href',message.url);
+    a.attr('href',message.url);
   li.append(a);
     jQuery('#messages').append(li);
 
