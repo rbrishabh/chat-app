@@ -16,9 +16,9 @@ app.use(express.static(publicPath));
 io.on('connection', (socket)=>{
     console.log('New connection made');
 
-    socket.emit('newMessage', generateMessage('admin','Welcome to the RB chat'));
+    socket.emit('newMessage', generateMessage('Admin','Welcome to the RB chat'));
 
-    socket.broadcast.emit('newMessage', generateMessage('admin', 'Welcome new user'));
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'Welcome new user'));
 
     socket.on('disconnect', ()=>{
         console.log('Connection from client closed');
@@ -36,7 +36,7 @@ io.on('connection', (socket)=>{
     });
 
 socket.on('geoLocationMessage', (coords)=>{
-    io.emit('newLocationMessage',generateLocationMessage('admin', coords.latitude, coords.longitude));
+    io.emit('newLocationMessage',generateLocationMessage('Admin', coords.latitude, coords.longitude));
 });
 
 
