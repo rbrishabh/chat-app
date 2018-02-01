@@ -36,36 +36,33 @@ callback();
     });
 
     socket.on('createMessage', function (message, callback) {
-        console.log('recieved new message', message);
-        io.emit('newMessage', generateMessage(message.from, message.text));
+        var user = users.getUser(socket.id);
+        if(user && isRealString(message.text)) {
+            io.to(user[0].room).emit('newMessage', generateMessage(user[0].name, message.text));
+        }
         callback();
-        // socket.broadcast.emit('newMessage', {
-        //     from: message.from,
-        //     text: message.text,
-        //     createdAt: new Date().getTime()
-        // });
+
     });
 
+socket.on('geoLocationMessage', (coords)=>{
 
+   var user = users.getUser(socket.id);
+   if(user){
+       io.to(user[0].room).emit('newLocationMessage',generateLocationMessage(user[0].name, coords.latitude, coords.longitude));
+
+   }
+
+});
 
 
 socket.on('disconnect', ()=>{
     var user = users.removeUser(socket.id);
-io.to(user.room).emit('updateUsersList', users.getUsersList(user.room));
 if(user) {
     io.to(user.room).emit('updateUsersList', users.getUsersList(user.room));
     io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`))
 }
 
 });
-
-
-
-
-    socket.on('geoLocationMessage', (coords)=>{
-    io.emit('newLocationMessage',generateLocationMessage('Admin', coords.latitude, coords.longitude));
-});
-
 
 });
 
