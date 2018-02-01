@@ -5,6 +5,23 @@ socket.on('connect', function () {
 socket.on('disconnect', function () {
     console.log('Connection to server closed');
 });
+
+function scrollToBottom () {
+//selectors
+var messages = jQuery("#messages");
+var lastMessage = messages.children('li:last-child');
+    //Heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var lastMessageHeight = lastMessage.innerHeight();
+    var secondLastMessageHeight = lastMessage.prev().innerHeight();
+
+    if(clientHeight + scrollTop + lastMessageHeight + secondLastMessageHeight >= scrollHeight){
+        messages.scrollTop(scrollHeight);
+    }
+};
+
 socket.on('newMessage', function (message) {
     var time = moment(message.createdAt).format("h:mm a");
     var template = jQuery("#message-template").html();
@@ -14,6 +31,7 @@ socket.on('newMessage', function (message) {
         time:time
     });
     jQuery("#messages").append(html);
+    scrollToBottom();
 });
 
 socket.on('newLocationMessage', function(message) {
@@ -25,6 +43,7 @@ var html = Mustache.render(template, {
    time:time
 });
 jQuery('#messages').append(html);
+scrollToBottom();
 
 });
 
